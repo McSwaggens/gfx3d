@@ -17,5 +17,6 @@ struct Vector final
 	Vector(float&& _x, float&& _y)							: x(_x		), y(_y		), z(0.0f	), w(1.0f	)	{ }
 	Vector(float&& xyz)										: x(xyz		), y(xyz	), z(xyz	), w(1.0f	)	{ }
 
+	Vector() : Vector(0.0f) { }
 	Vector(Vector& v) : x(v.x), y(v.y), z(v.z), w(v.w) { }
 };
