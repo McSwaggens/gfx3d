@@ -6,6 +6,7 @@
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
 #include "shader.h"
+#include "vector.h"
 
 GLFWwindow* window = nullptr;
 Shader basic_shader;
