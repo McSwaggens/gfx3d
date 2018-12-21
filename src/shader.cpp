@@ -37,8 +37,8 @@ uint32_t compile_sub_shader(char* src, int type)
 {
 	uint32_t id = glCreateShader(type);
 	std::cout << "New shader with id " << id << std::endl;
-	std::cout << "Source code: " << std::endl;
-	printf("%s\n", src);
+	// std::cout << "Source code: " << std::endl;
+	// printf("%s\n", src);
 
 	glShaderSource(id, 1, &src, nullptr);
 	glCompileShader(id);
