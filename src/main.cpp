@@ -112,7 +112,7 @@ uint8_t quad_indices[] =
 uint32_t circle_vao;
 uint32_t circle_vbo;
 // (center vertex) + (vert per quadrant) * (quadrants in a circle) + (reset)
-const uint32_t circle_vertex_count = 1 + 5 * 4 + 1;
+const uint32_t circle_vertex_count = 1 + 15 * 4 + 1;
 Vector circle_vertices[circle_vertex_count];
 
 void load_circle()
