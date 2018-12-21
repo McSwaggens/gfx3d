@@ -95,12 +95,12 @@ static_assert(sizeof(GLuint) == sizeof(uint32_t), "GLuint != uint32_t");
 uint32_t quad_vao;
 
 uint32_t quad_vbo;
-float quad_vertices[] =
+Vector quad_vertices[] =
 {
-	-1.0f, -1.0f, 0.0f,
-	-1.0f,  1.0f, 0.0f,
-	 1.0f,  1.0f, 0.0f,
-	 1.0f, -1.0f, 0.0f
+	Vector(-1.0f, -1.0f),
+	Vector(-1.0f,  1.0f),
+	Vector( 1.0f,  1.0f),
+	Vector( 1.0f, -1.0f)
 };
 
 uint32_t quad_ibo;
@@ -113,27 +113,16 @@ uint32_t circle_vao;
 uint32_t circle_vbo;
 // (center vertex) + (vert per quadrant) * (quadrants in a circle) + (reset)
 const uint32_t circle_vertex_count = 1 + 5 * 4 + 1;
-float circle_vertices[circle_vertex_count * 3];
+Vector circle_vertices[circle_vertex_count];
 
 void load_circle()
 {
-	circle_vertices[0] = 0.0f;
-	circle_vertices[1] = 0.0f;
-	circle_vertices[3] = 0.0f;
+	circle_vertices[0] = Vector(0.0f);
 
 	for (int i = 0; i < circle_vertex_count - 1; i++)
 	{
-		float x;
-		float y;
-
 		float theta = ((float)i / ((float)circle_vertex_count - 2)) * (2 * M_PI);
-
-		x = cos(theta);
-		y = sin(theta);
-
-		circle_vertices[( (i + 1) * 3 ) + 0] = x;
-		circle_vertices[( (i + 1) * 3 ) + 1] = y;
-		circle_vertices[( (i + 1) * 3 ) + 2] = 0;
+		circle_vertices[i + 1] = Vector(cos(theta), sin(theta));
 	}
 
 	glGenBuffers(1, &circle_vbo);
@@ -144,7 +133,7 @@ void load_circle()
 	glBindVertexArray(circle_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, circle_vbo);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
 	glBindVertexArray(0);
 }
 
