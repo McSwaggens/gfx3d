@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include "shader.h"
 #include "vector.h"
+#include "Keyboard.h"
 
 GLFWwindow* window = nullptr;
 Shader basic_shader;
@@ -23,42 +24,6 @@ using hrc = std::chrono::high_resolution_clock;
 void framebuffer_resize_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
-
-struct KeyboardState
-{
-	bool keys[GLFW_KEY_LAST + 1];
-};
-
-KeyboardState kbstates[2];
-
-KeyboardState* kbstate_curr = &kbstates[0];
-KeyboardState* kbstate_last = &kbstates[1];
-
-void swap_kbstates()
-{
-	std::swap(kbstate_curr, kbstate_last);
-	std::fill_n(kbstate_curr->keys, sizeof(kbstate_curr->keys), 0);
-}
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	kbstate_curr->keys[key] = (action == GLFW_PRESS);
-}
-
-bool is_key_pressed(int key)
-{
-	return kbstate_curr->keys[key] && !kbstate_last->keys[key];
-}
-
-bool is_key_down(int key)
-{
-	return kbstate_curr->keys[key];
-}
-
-bool is_key_released(int key)
-{
-	return !kbstate_curr->keys[key] && kbstate_last->keys[key];
 }
 
 bool init_window()
@@ -78,7 +43,6 @@ bool init_window()
 	}
 
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
-	glfwSetKeyCallback(window, key_callback);
 
 	std::cout << "Window created" << std::endl;
 	return true;
@@ -422,6 +386,7 @@ int main(int argc, char* argv[])
 	if (init_opengl())
 	{
 		std::cout << std::fixed;
+		SetupKeyboard(window);
 		load_resources();
 		main_loop();
 		release_resources();
@@ -430,4 +395,3 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
-

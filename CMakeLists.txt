@@ -15,6 +15,7 @@ find_package(OpenGL REQUIRED)
 add_executable(gfx3d
 	"src/main.cpp"
 	"src/shader.cpp"
+	"src/Keyboard.cpp"
 	)
 target_include_directories(gfx3d PRIVATE ${GLEW_INCLUDE_DIRS})
 target_link_libraries(gfx3d GLEW OpenGL glfw)
