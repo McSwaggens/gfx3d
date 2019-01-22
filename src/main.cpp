@@ -19,10 +19,6 @@ bool running = false;
 Clock g_clock;
 
 const long double g_golden_ratio = (1.0 + sqrt(5.0)) / 2.0;
-float delta_time = 0.0f;
-float g_time = 0.0f;
-
-using hrc = std::chrono::high_resolution_clock;
 
 void framebuffer_resize_callback(GLFWwindow* window, int width, int height)
 {
@@ -275,30 +271,6 @@ void check_events()
 	}
 }
 
-void calc_time()
-{
-	static bool first = true;
-
-	static hrc::time_point start_time;
-	static hrc::time_point last_time;
-	static hrc::time_point current_time;
-
-	last_time = current_time;
-	current_time = hrc::now();
-
-	if (first)
-	{
-		first = false;
-		start_time = current_time;
-		last_time = current_time;
-	}
-	else
-	{
-		delta_time = std::chrono::duration<float>(current_time - last_time).count();
-		g_time = std::chrono::duration<float>(current_time - start_time).count();
-	}
-}
-
 struct
 {
 	double m = 1366.3333333333333;
@@ -326,7 +298,7 @@ void tick_mod_circle()
 	}
 	else if (g_mod_circle.playing)
 	{
-		g_mod_circle.m += g_mod_circle.play_speed * delta_time;
+		g_mod_circle.m += g_mod_circle.play_speed * g_clock.DeltaTime();
 	}
 	else if (is_key_pressed(GLFW_KEY_RIGHT))
 	{
@@ -355,9 +327,6 @@ void tick_mod_circle()
 
 void logic()
 {
-	calc_time();
-	// std::cout << "time = " << g_time << "\t delta_time = " << delta_time << std::endl;
-
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		running = false;
