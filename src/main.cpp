@@ -10,10 +10,13 @@
 #include "shader.h"
 #include "vector.h"
 #include "Keyboard.h"
+#include "Time.h"
 
 GLFWwindow* window = nullptr;
 Shader basic_shader;
 bool running = false;
+
+Clock g_clock;
 
 const long double g_golden_ratio = (1.0 + sqrt(5.0)) / 2.0;
 float delta_time = 0.0f;
@@ -384,6 +387,8 @@ void main_loop()
 	running = true;
 	while (running)
 	{
+		g_clock.Update();
+		std::cout << "g_clock.Time() = " << g_clock.Time() << std::endl << "g_clock.DeltaTime() = " << g_clock.DeltaTime() << std::endl;
 		check_events();
 		logic();
 		render();
@@ -392,6 +397,7 @@ void main_loop()
 
 int main(int argc, char* argv[])
 {
+	g_clock.Start();
 	if (init_opengl())
 	{
 		std::cout << std::fixed;
