@@ -45,11 +45,11 @@ struct alignas(16) Vector final
 	static const Vector forward;
 	static const Vector backward;
 
-	constexpr
-	operator __m128() const
-	{
-		return mf;
-	}
+	// constexpr
+	// operator __m128() const
+	// {
+	//     return mf;
+	// }
 
 	constexpr
 	Vector& operator = (const Vector& rhs)
@@ -63,7 +63,7 @@ struct alignas(16) Vector final
 	inline
 	Vector operator + (const Vector& rhs) const
 	{
-		return _mm_add_ps(mf, rhs);
+		return _mm_add_ps(mf, rhs.mf);
 	}
 
 	inline
@@ -75,7 +75,7 @@ struct alignas(16) Vector final
 	inline
 	Vector operator - (const Vector& rhs) const
 	{
-		return _mm_sub_ps(mf, rhs);
+		return _mm_sub_ps(mf, rhs.mf);
 	}
 
 	inline
@@ -87,7 +87,7 @@ struct alignas(16) Vector final
 	inline
 	Vector operator * (const Vector& rhs) const
 	{
-		return _mm_mul_ps(mf, rhs);
+		return _mm_mul_ps(mf, rhs.mf);
 	}
 
 	inline
@@ -99,7 +99,7 @@ struct alignas(16) Vector final
 	inline
 	Vector operator / (const Vector& rhs) const
 	{
-		return _mm_div_ps(mf, rhs);
+		return _mm_div_ps(mf, rhs.mf);
 	}
 
 	inline
@@ -111,7 +111,7 @@ struct alignas(16) Vector final
 
 	// Math Functions
 	
-	Vector square() const
+	Vector Square() const
 	{
 		return _mm_mul_ps(mf, mf);
 	}
