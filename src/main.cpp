@@ -179,17 +179,27 @@ uint32_t line_circle_vao;
 uint32_t line_circle_vbo;
 uint32_t line_circle_ibo;
 
-const uint32_t line_circle_vertex_count = 200;
+const uint32_t line_circle_vertex_count = 1024 * 12;
 const uint32_t line_circle_index_count = line_circle_vertex_count * 2;
 Vector line_circle_vertices[line_circle_vertex_count];
-uint16_t line_circle_indices[line_circle_index_count];
+
+struct LineIndex
+{
+	uint32_t from;
+	uint32_t to;
+};
+
+LineIndex line_circle_indices[line_circle_vertex_count];
 
 void calc_mod_circle_indices(double n)
 {
-	for (size_t i = 0; i < line_circle_vertex_count; i++)
+	// std::cout << "1.0 = " << 1.0 << " n = " << n << std::endl;
+	for (uint64_t i = 0; i < line_circle_vertex_count; i++)
 	{
-		uint64_t r = i * n;
-		line_circle_indices[i * 2 + 1] = r % line_circle_vertex_count;
+		const uint64_t uscaler = 100'000'000'000u;
+		uint64_t v = uint64_t((i) * uint64_t(n * uscaler)) / uscaler;
+		// std::cout << "v = " << v << std::endl;
+		line_circle_indices[i] = { uint32_t(i), uint32_t(v % line_circle_vertex_count) };
 	}
 }
 
@@ -200,7 +210,6 @@ void load_line_circle()
 		float theta = ((float)i / (float)line_circle_vertex_count) * (2 * M_PI);
 		Vector p(cosf(theta), sinf(theta));
 		line_circle_vertices[i] = p;
-		line_circle_indices[i * 2] = i;
 	}
 
 	calc_mod_circle_indices(1.0f);
@@ -289,9 +298,9 @@ void calc_time()
 
 struct
 {
-	double m = 0.0;
+	double m = 1366.3333333333333;
 	bool playing = false;
-	double play_speed = 1.0;
+	double play_speed = 0.0001;
 } g_mod_circle;
 
 void tick_mod_circle()
@@ -306,11 +315,11 @@ void tick_mod_circle()
 
 	if (is_key_pressed(GLFW_KEY_UP))
 	{
-		g_mod_circle.play_speed += 0.1f;
+		g_mod_circle.play_speed += 0.0001f;
 	}
 	else if (is_key_pressed(GLFW_KEY_DOWN))
 	{
-		g_mod_circle.play_speed -= 0.1f;
+		g_mod_circle.play_speed -= 0.0001f;
 	}
 	else if (g_mod_circle.playing)
 	{
@@ -318,15 +327,15 @@ void tick_mod_circle()
 	}
 	else if (is_key_pressed(GLFW_KEY_RIGHT))
 	{
-		g_mod_circle.m += 0.1;
+		g_mod_circle.m += 0.00001;
 	}
 	else if (is_key_pressed(GLFW_KEY_LEFT))
 	{
-		g_mod_circle.m -= 0.1;
+		g_mod_circle.m -= 0.00001;
 	}
 	else if (is_key_pressed(GLFW_KEY_R))
 	{
-		g_mod_circle.m = (double)(uint64_t)g_mod_circle.m;
+		g_mod_circle.m = double(uint64_t(g_mod_circle.m * 100'000.0)) / 100'000.0;
 	}
 	else
 	{
@@ -364,7 +373,7 @@ void render()
 
 	glBindVertexArray(line_circle_vao);
 	basic_shader.enable();
-	glDrawElements(GL_LINES, line_circle_index_count, GL_UNSIGNED_SHORT, nullptr);
+	glDrawElements(GL_LINES, line_circle_index_count, GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 
 	glfwSwapBuffers(window);
@@ -386,6 +395,7 @@ int main(int argc, char* argv[])
 	if (init_opengl())
 	{
 		std::cout << std::fixed;
+		std::cout.precision(17);
 		SetupKeyboard(window);
 		load_resources();
 		main_loop();
