@@ -3,37 +3,36 @@
 #include <utility>
 
 KeyboardState kbstates[2];
+KeyboardState* g_kbstate_current = &kbstates[0];
+KeyboardState* g_kbstate_last = &kbstates[1];
 
-KeyboardState* kbstate_curr = &kbstates[0];
-KeyboardState* kbstate_last = &kbstates[1];
-
-void swap_kbstates()
+void SwapKeyboardStates()
 {
-	std::swap(kbstate_curr, kbstate_last);
-	std::fill_n(kbstate_curr->keys, sizeof(kbstate_curr->keys), 0);
+	std::swap(g_kbstate_current, g_kbstate_last);
+	std::fill_n(g_kbstate_current->keys, sizeof(g_kbstate_current->keys), 0);
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	kbstate_curr->keys[key] = (action == GLFW_PRESS);
+	g_kbstate_current->keys[key] = (action == GLFW_PRESS);
 }
 
 void SetupKeyboard(GLFWwindow* window)
 {
-	glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(window, KeyCallback);
 }
 
-bool is_key_pressed(int key)
+bool IsKeyPressed(int key)
 {
-	return kbstate_curr->keys[key] && !kbstate_last->keys[key];
+	return g_kbstate_current->keys[key] && !g_kbstate_last->keys[key];
 }
 
-bool is_key_down(int key)
+bool IsKeyDown(int key)
 {
-	return kbstate_curr->keys[key];
+	return g_kbstate_current->keys[key];
 }
 
-bool is_key_released(int key)
+bool IsKeyReleased(int key)
 {
-	return !kbstate_curr->keys[key] && kbstate_last->keys[key];
+	return !g_kbstate_current->keys[key] && g_kbstate_last->keys[key];
 }

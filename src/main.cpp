@@ -157,7 +157,7 @@ void ReleaseResources()
 
 void CheckEvents()
 {
-	swap_kbstates();
+	SwapKeyboardStates();
 	glfwPollEvents();
 
 	if (glfwWindowShouldClose(g_window))

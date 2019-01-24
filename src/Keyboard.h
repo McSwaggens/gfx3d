@@ -8,8 +8,8 @@ struct KeyboardState
 };
 
 void SetupKeyboard(GLFWwindow* window);
-void swap_kbstates();
-bool is_key_pressed(int key);
-bool is_key_down(int key);
-bool is_key_released(int key);
+void SwapKeyboardStates();
+bool IsKeyPressed(int key);
+bool IsKeyDown(int key);
+bool IsKeyReleased(int key);
 
