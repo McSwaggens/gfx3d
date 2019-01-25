@@ -16,16 +16,12 @@ void Engine::Start()
 	m_clock.Start();
 	InitWindow();
 	InitOGL();
-	SetupKeyboard(m_window);
+	SetupKeyboard(m_window->GetGLFWWindow());
 	LoadResources();
 	GameLoop();
 	DestroyResources();
 }
 
-void Framebuffer_SizeChanged_Callback(GLFWwindow* g_window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
 
 bool Engine::InitWindow()
 {
@@ -42,15 +38,14 @@ bool Engine::InitWindow()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_window = glfwCreateWindow(1920, 1080, "gfx3d", NULL, NULL);
+	m_window = new Window("Game Window", 1920, 1080);
 
-	if (!m_window)
+	if (!m_window->GetGLFWWindow()) // FIXME
 	{
 		std::cout << "Failed to create window" << std::endl;
 		return false;
 	}
 
-	glfwSetFramebufferSizeCallback(m_window, Framebuffer_SizeChanged_Callback);
 
 	std::cout << "Window created" << std::endl;
 	return true;
@@ -59,7 +54,7 @@ bool Engine::InitWindow()
 bool Engine::InitOGL()
 {
 	// Set the OpenGL context
-	glfwMakeContextCurrent(m_window);
+	m_window->BindContext();
 
 	// Initialize GLEW
 	glewExperimental = true;
@@ -85,8 +80,7 @@ void Engine::DestroyResources()
 
 	// GLFW stuff needs to go last
 	// Destroy the window
-	glfwDestroyWindow(m_window);
-	m_window = nullptr;
+	delete m_window;
 
 	// Terminate GLFW
 	glfwTerminate();
@@ -97,7 +91,7 @@ void Engine::CheckEvents()
 	SwapKeyboardStates();
 	glfwPollEvents();
 
-	if (glfwWindowShouldClose(m_window))
+	if (glfwWindowShouldClose(m_window->GetGLFWWindow()))
 	{
 		m_running = false;
 	}
@@ -132,6 +126,6 @@ void Engine::Render()
 	// glDrawElements(GL_TRIANGLES, sizeof(g_quad_indices) / sizeof(uint8_t), GL_UNSIGNED_BYTE, nullptr);
 	// glBindVertexArray(0);
 
-	glfwSwapBuffers(m_window);
+	m_window->SwapBuffers();
 }
 

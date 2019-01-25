@@ -11,6 +11,7 @@
 #include "vector.h"
 #include "Keyboard.h"
 #include "Time.h"
+#include "Window.h"
 
 class Engine final
 {
@@ -18,7 +19,7 @@ private:
 
 	bool m_running = false;
 	Clock m_clock;
-	GLFWwindow* m_window = nullptr;
+	Window* m_window = nullptr;
 
 	bool InitWindow();
 	bool InitOGL();
