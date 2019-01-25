@@ -14,6 +14,7 @@ find_package(OpenGL REQUIRED)
 
 add_executable(gfx3d
 	"src/main.cpp"
+	"src/Engine.cpp"
 	"src/shader.cpp"
 	"src/Keyboard.cpp"
 	"src/Time.cpp"
