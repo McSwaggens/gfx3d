@@ -12,6 +12,7 @@
 #include "Keyboard.h"
 #include "Time.h"
 #include "Window.h"
+#include "Buffer.h"
 
 class Engine final
 {
@@ -20,6 +21,7 @@ private:
 	bool m_running = false;
 	Clock m_clock;
 	Window* m_window = nullptr;
+	Buffer* m_buffer = nullptr;
 
 	bool InitWindow();
 	bool InitOGL();

@@ -19,6 +19,7 @@ add_executable(gfx3d
 	"src/Keyboard.cpp"
 	"src/Time.cpp"
 	"src/Window.cpp"
+	"src/Buffer.cpp"
 	)
 target_include_directories(gfx3d PRIVATE ${GLEW_INCLUDE_DIRS})
 target_link_libraries(gfx3d GLEW OpenGL glfw)

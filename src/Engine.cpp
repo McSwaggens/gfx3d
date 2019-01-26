@@ -78,6 +78,12 @@ void Engine::DestroyResources()
 {
 	std::cout << "Destroying resources" << std::endl;
 
+	if (m_buffer)
+	{
+		m_buffer->Destroy();
+		delete m_buffer;
+	}
+
 	// GLFW stuff needs to go last
 	// Destroy the window
 	delete m_window;
