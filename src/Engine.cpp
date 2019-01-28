@@ -2,8 +2,15 @@
 
 Engine* const g_engine = new Engine();
 
-void Engine::Start()
+void Engine::Start(Application* app)
 {
+	if (!app)
+	{
+		std::cerr << "No app given to engine initializer" << std::endl;
+		return;
+	}
+	m_app = app;
+
 	if (m_running)
 	{
 		std::cout << "An attempt was made to initialize the engine again" << std::endl;
@@ -71,6 +78,7 @@ bool Engine::InitOGL()
 bool Engine::LoadResources()
 {
 	std::cout << "Loading resources" << std::endl;
+	m_app->Init();
 	return true;
 }
 
@@ -78,10 +86,10 @@ void Engine::DestroyResources()
 {
 	std::cout << "Destroying resources" << std::endl;
 
-	if (m_buffer)
+	if (m_app)
 	{
-		m_buffer->Destroy();
-		delete m_buffer;
+		m_app->Destroy();
+		free(m_app);
 	}
 
 	// GLFW stuff needs to go last
@@ -109,6 +117,8 @@ void Engine::LogicUpdate()
 	{
 		m_running = false;
 	}
+
+	m_app->Update();
 }
 
 void Engine::GameLoop()

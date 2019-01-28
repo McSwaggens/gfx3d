@@ -13,6 +13,8 @@
 #include "Time.h"
 #include "Window.h"
 #include "Buffer.h"
+#include "Actor.h"
+#include "Application.h"
 
 class Engine final
 {
@@ -21,7 +23,7 @@ private:
 	bool m_running = false;
 	Clock m_clock;
 	Window* m_window = nullptr;
-	Buffer* m_buffer = nullptr;
+	Application* m_app = nullptr;
 
 	bool InitWindow();
 	bool InitOGL();
@@ -33,7 +35,7 @@ private:
 	void DestroyResources();
 
 public:
-	void Start();
+	void Start(Application* app);
 };
 
 extern Engine* const g_engine;
