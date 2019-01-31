@@ -3,15 +3,18 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-Buffer::Buffer(BufferType type)
-	: m_type(type)
+static Buffer Create(BufferType type = BufferType::Array)
 {
-	glGenBuffers(1, &m_id);
+	Buffer buffer;
+
+	glGenBuffers(1, &buffer.m_id);
 	
-	if (!IsValid())
+	if (!buffer.IsValid())
 	{
 		std::cerr << "[ERROR] glGenBuffers returned 0" << std::endl;
 	}
+
+	return buffer;
 }
 
 void Buffer::Destroy()

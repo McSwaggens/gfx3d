@@ -7,13 +7,16 @@ enum BufferType
 	Index
 };
 
-class Buffer
+struct Buffer
 {
-private:
 	uint32_t m_id = 0;
-	const BufferType m_type;
-public:
-	Buffer(BufferType type = BufferType::Array);
+	BufferType m_type = BufferType::Array;
+
+	Buffer() = default;
+	Buffer(uint32_t id, BufferType type = BufferType::Array)
+		: m_id(id), m_type(type) { }
+
+	static Buffer Create(BufferType type = BufferType::Array);
 
 	void Destroy();
 	void Bind();
