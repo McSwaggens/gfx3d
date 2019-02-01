@@ -142,6 +142,8 @@ void Engine::Render()
 	// glDrawElements(GL_TRIANGLES, sizeof(g_quad_indices) / sizeof(uint8_t), GL_UNSIGNED_BYTE, nullptr);
 	// glBindVertexArray(0);
 
+	m_app->Render();
+
 	m_window->SwapBuffers();
 }
 
