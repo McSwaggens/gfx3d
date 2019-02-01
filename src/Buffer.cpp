@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-static Buffer Create(BufferType type = BufferType::Array)
+Buffer Buffer::Create(BufferType type)
 {
 	Buffer buffer;
 
