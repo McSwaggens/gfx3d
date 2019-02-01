@@ -1,11 +1,47 @@
 #include <iostream>
 #include "Engine.h"
 
-const Vector g_triangle[] =
+const Vector g_cube[] =
 {
-	Vector(-1, -1, 0, 1),
-	Vector(0, 1, 0, 1),
-	Vector(1, -1, 0, 1),
+	// Front Face //
+	Vector(-1, -1, 1, 1) * 0.5,  // 0: Front Bottom Left
+	Vector(-1, 1, 1, 1) * 0.5,   // 1: Front Top Left
+	Vector(1, 1, 1, 1) * 0.5,    // 2: Front Top Right
+	Vector(1, -1, 1, 1) * 0.5,   // 3: Front Bottom Right
+
+	// Back Face //
+	Vector(-1, -1, -1, 1) * 0.5, // 4: Back Bottom Right
+	Vector(-1, 1, -1, 1) * 0.5,  // 5: Back Top Right
+	Vector(1, 1, -1, 1) * 0.5,   // 6: Back Top Left
+	Vector(1, -1, -1, 1) * 0.5,  // 7: Back Bottom Left
+};
+
+const uint8_t g_indices[] =
+{
+	// Front Face //
+	0, 1, 3,
+	1, 2, 3,
+
+	// Back Face //
+	7, 6, 4,
+	6, 5, 4,
+
+	// Top Face //
+	1, 5, 2,
+	5, 6, 2,
+
+	// Bottom Face //
+	5, 0, 7,
+	0, 3, 7,
+
+	// Left Face //
+	4, 5, 0,
+	5, 1, 0,
+
+	// Right Face //
+	3, 2, 7,
+	2, 6, 7,
+
 };
 
 class TestApp : public Application
@@ -14,6 +50,7 @@ private:
 public:
 
 	Buffer m_buffer;
+	Buffer m_index_buffer;
 	uint32_t m_vao;
 	Shader m_shader;
 
@@ -26,9 +63,18 @@ public:
 		glEnableVertexAttribArray(0);
 		glBufferData(
 				GL_ARRAY_BUFFER,
-				sizeof(g_triangle),
-				&g_triangle,
+				sizeof(g_cube),
+				&g_cube,
 				GL_STATIC_DRAW);
+
+		m_index_buffer = Buffer::Create(BufferType::Index);
+		m_index_buffer.Bind();
+		glBufferData(
+				GL_ELEMENT_ARRAY_BUFFER,
+				sizeof(g_indices),
+				&g_indices,
+				GL_STATIC_DRAW);
+
 		m_shader = Shader::create("basic");
 
 		glGenVertexArrays(1, &m_vao);
@@ -41,6 +87,8 @@ public:
 
 	void Render()
 	{
+		glEnable(GL_DEPTH_TEST);
+
 		m_buffer.Bind();
 		m_shader.enable();
 		glVertexAttribPointer(
@@ -51,10 +99,12 @@ public:
 				0,
 				nullptr);
 		glEnableVertexAttribArray(0);
-		glDrawArrays(
+		m_index_buffer.Bind();
+		glDrawElements(
 				GL_TRIANGLES,
-				0,
-				3);
+				sizeof(g_indices),
+				GL_UNSIGNED_BYTE,
+				nullptr);
 	}
 
 	void Destroy()
