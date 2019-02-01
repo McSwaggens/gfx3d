@@ -6,6 +6,7 @@
 Buffer Buffer::Create(BufferType type)
 {
 	Buffer buffer;
+	buffer.m_type = type;
 
 	glGenBuffers(1, &buffer.m_id);
 	
@@ -13,6 +14,8 @@ Buffer Buffer::Create(BufferType type)
 	{
 		std::cerr << "[ERROR] glGenBuffers returned 0" << std::endl;
 	}
+
+	std::cout << "Created Buffer " << buffer.m_id << "." << std::endl;
 
 	return buffer;
 }
@@ -26,6 +29,7 @@ void Buffer::Destroy()
 	else
 	{
 		glDeleteBuffers(1, &m_id);
+		std::cout << "Buffer " << m_id << " destroyed." << std::endl;
 		m_id = 0;
 	}
 }
