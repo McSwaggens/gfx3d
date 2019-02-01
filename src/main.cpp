@@ -1,5 +1,5 @@
 #include <iostream>
-#include "vector.h"
+#include "Vector.h"
 #include "Engine.h"
 
 uint32_t g_quad_vao;
