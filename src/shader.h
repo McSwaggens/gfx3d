@@ -10,4 +10,8 @@ public:
 	void enable();
 	void destroy();
 	bool is_valid();
+	uint32_t GetProgramID() const
+	{
+		return m_program_id;
+	}
 };
