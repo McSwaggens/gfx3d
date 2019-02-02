@@ -19,6 +19,8 @@ struct alignas(16) Vector final
 			float w;
 		};
 
+		float a[4];
+
 		__m128 mf;
 	};
 
