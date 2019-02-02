@@ -1,10 +1,11 @@
 #version 440 core
 
 out vec4 color;
-in vec2 uv;
+
+in vec4 p_color;
 
 void main()
 {
-	color = vec4(uv.x, 1-(uv.x * uv.y * 0.5 + 0.5), uv.y, 1);
+	color = p_color;
 }
 

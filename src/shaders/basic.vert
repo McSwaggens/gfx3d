@@ -1,12 +1,15 @@
 #version 440 core
 
-layout(location = 0) in vec3 vertex;
+layout(location = 0) in vec4 vertex;
+layout(location = 1) in vec4 color;
 
-out vec2 uv;
+uniform mat4 u_proj;
+
+out vec4 p_color;
 
 void main()
 {
-	gl_Position = vec4(vertex, 1);
-	uv = (gl_Position.xy + 1) / 2;
+	p_color = color;
+	gl_Position = u_proj * vertex;
 }
 
