@@ -21,6 +21,7 @@ add_executable(gfx3d
 	"src/Window.cpp"
 	"src/Buffer.cpp"
 	"src/Quaternion.cpp"
+	"src/Matrix.cpp"
 	)
 target_include_directories(gfx3d PRIVATE ${GLEW_INCLUDE_DIRS})
 target_link_libraries(gfx3d GLEW OpenGL glfw)
