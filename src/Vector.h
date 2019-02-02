@@ -7,6 +7,8 @@
 #include <nmmintrin.h> // SSE 4.2 - Additional instructions
 #include <immintrin.h> // AVX     - 8 float & 4 double
 
+#include <iostream>
+
 struct alignas(16) Vector final
 {
 	union
@@ -134,6 +136,11 @@ struct alignas(16) Vector final
 	}
 
 
+	friend std::ostream& operator << (std::ostream& os, const Vector& z)
+	{
+		os << "(" << z.x << ", " << z.y << ", " << z.z << ", " << z.w << ")";
+		return os;
+	}
 };
 
 
