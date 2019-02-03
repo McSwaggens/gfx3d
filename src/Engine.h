@@ -20,8 +20,6 @@ class Engine final
 {
 private:
 
-	friend class Application;
-
 	bool m_running = false;
 	Window* m_window = nullptr;
 	Application* m_app = nullptr;
