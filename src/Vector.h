@@ -48,6 +48,7 @@ struct alignas(16) Vector final
 	static const Vector down;
 	static const Vector forward;
 	static const Vector backward;
+	static const Vector wone;
 
 	// constexpr
 	// operator __m128() const
@@ -150,5 +151,6 @@ constexpr const Vector Vector::up		= Vector(  0.0f,  1.0f,  0.0f, 0.0f );
 constexpr const Vector Vector::down		= Vector(  0.0f, -1.0f,  0.0f, 0.0f );
 constexpr const Vector Vector::forward	= Vector(  0.0f,  0.0f,  1.0f, 0.0f );
 constexpr const Vector Vector::backward	= Vector(  0.0f,  0.0f, -1.0f, 0.0f );
+constexpr const Vector Vector::wone		= Vector(  0.0f,  0.0f,  0.0f, 1.0f );
 
 
