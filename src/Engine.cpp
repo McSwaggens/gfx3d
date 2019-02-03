@@ -55,6 +55,7 @@ bool Engine::InitWindow()
 		return false;
 	}
 
+	glfwSwapInterval(1);
 
 	std::cout << "Window created" << std::endl;
 	return true;
@@ -126,6 +127,7 @@ void Engine::GameLoop()
 {
 	while (m_running)
 	{
+		m_ticks++;
 		m_clock.Update();
 		CheckEvents();
 		LogicUpdate();

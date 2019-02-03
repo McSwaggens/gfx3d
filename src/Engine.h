@@ -23,6 +23,7 @@ private:
 	bool m_running = false;
 	Window* m_window = nullptr;
 	Application* m_app = nullptr;
+	uint64_t m_ticks = 0;
 
 	bool InitWindow();
 	bool InitOGL();
@@ -45,6 +46,11 @@ public:
 	bool IsRunning() const
 	{
 		return m_running;
+	}
+
+	uint64_t GetTicks() const
+	{
+		return m_ticks;
 	}
 
 	void Start(Application* app);
