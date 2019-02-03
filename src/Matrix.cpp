@@ -17,20 +17,20 @@ void MatrixTests()
 		3, 0   // Y
 	};
 
-	std::cout << "a: " << a;
-	std::cout << "b: " << b;
-	std::cout << "a*b: " << (a * b);
+	// std::cout << "a: " << a;
+	// std::cout << "b: " << b;
+	// std::cout << "a*b: " << (a * b);
 
 	Matrix<4, 4> c =
 	{
-	//  X  Y  Z  W
-		1, 0, 0, 0, // X
-		0, 1, 0, 0, // Y
-		0, 0, 1, 0, // Z
-		0, 0, 0, 1  // W
+	//  X    Y    Z    W
+		1,   0,  -1,   0,  // X
+		0,   1,  -1,   0,  // Y
+		0,   0,   1,   0,  // Z
+		0,   0,   0,   1   // W
 	};
 
-	Vector d { 1, 1, 1, 1 };
+	Vector d { 1, 1, 0.2, 1 };
 	std::cout << "c: " << c;
 	std::cout << "c*" << d << " = " << (c * d) << std::endl;
 
@@ -41,8 +41,8 @@ void MatrixTests()
 		4, 0 // Y
 	};
 
-	std::cout << "a*" << d << " = " << (a * d) << std::endl;
-	std::cout << "b*" << d << " = " << (b * d) << std::endl;
-	std::cout << std::endl << "e: " << e;
-	std::cout << "e*" << d << " = " << (e * d) << std::endl;
+	// std::cout << "a*" << d << " = " << (a * d) << std::endl;
+	// std::cout << "b*" << d << " = " << (b * d) << std::endl;
+	// std::cout << std::endl << "e: " << e;
+	// std::cout << "e*" << d << " = " << (e * d) << std::endl;
 }

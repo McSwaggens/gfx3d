@@ -14,7 +14,7 @@ struct Matrix final
 {
 	float a[M * N];
 
-	Matrix<N, M> operator * (const Matrix<N, M>& z)
+	Matrix<N, M> operator * (const Matrix<N, M>& z) const
 	{
 		Matrix w = { 0 };
 		for (size_t m = 0; m < M; m++)
@@ -30,7 +30,7 @@ struct Matrix final
 		return w;
 	}
 
-	Vector operator * (const Vector& v)
+	Vector operator * (const Vector& v) const
 	{
 		Vector w;
 		for (size_t m = 0; m < M && m < 4; m++)
