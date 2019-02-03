@@ -130,16 +130,17 @@ public:
 
 		m_cam_rot = q * m_cam_rot * q.Conjugate();
 
-		std::cout << m_cam_pos << std::endl;
+		// std::cout << m_cam_pos << std::endl;
 
 		float t = sinf(g_engine->m_clock.Time());
+		float htw = g_engine->GetWindow()->HeightInWidth();
 
 		m_proj_mat =
 		{
 		//  X    Y    Z    W
-			1,   0,   0,   0,  // X
+			htw, 0,   0,   0,  // X
 			0,   1,   0,   0,  // Y
-			0,   0,   1,   -1,  // Z
+			0,   0,   1,  -1, // Z
 			0,   0,   1,   1   // W
 		};
 
@@ -159,7 +160,7 @@ public:
 		//  X									Y						Z								W
 			(float)m_cam_rot.j,					0,	 					-(float)m_cam_rot.i,			pos.x,	// X
 			0,									scale.y,				0,								pos.y,	// Y
-			(float)m_cam_rot.i,					0,						(float)m_cam_rot.j,						pos.z,	// Z
+			(float)m_cam_rot.i,					0,						(float)m_cam_rot.j,				pos.z,	// Z
 			0,									0,						0,								1		// W
 		};
 
