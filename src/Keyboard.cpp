@@ -14,7 +14,7 @@ void SwapKeyboardStates()
 
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	g_kbstate_current->keys[key] = (action == GLFW_PRESS);
+	g_kbstate_current->keys[key] = (action != GLFW_RELEASE);
 }
 
 void SetupKeyboard(GLFWwindow* window)
