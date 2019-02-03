@@ -7,28 +7,28 @@
 const uint8_t g_indices[] =
 {
 	// Front Face //
-	0, 1, 3,
-	1, 2, 3,
+	0, 3, 1,
+	3, 2, 1,
 
 	// Back Face //
-	7, 6, 4,
-	6, 5, 4,
+	7, 4, 6,
+	4, 5, 6,
 
 	// Top Face //
-	1, 5, 2,
-	5, 6, 2,
+	1, 2, 5,
+	2, 6, 5,
 
 	// Bottom Face //
-	4, 0, 7,
-	0, 3, 7,
+	4, 7, 0,
+	7, 3, 0,
 
 	// Left Face //
-	4, 5, 0,
-	5, 1, 0,
+	4, 0, 5,
+	0, 1, 5,
 
 	// Right Face //
-	3, 2, 7,
-	2, 6, 7,
+	3, 7, 2,
+	7, 6, 2,
 
 };
 
@@ -47,16 +47,16 @@ const Vector g_cube_colors[] =
 const Vector g_cube[] =
 {
 	// Front Face //
-	Vector(-1, -1, -1,  1),   // 0: Front Bottom Left
-	Vector(-1,  1, -1,  1),   // 1: Front Top Left
-	Vector( 1,  1, -1,  1),   // 2: Front Top Right
-	Vector( 1, -1, -1,  1),   // 3: Front Bottom Right
+	Vector(-1, -1,  1,  1),   // 0: Front Bottom Left
+	Vector(-1,  1,  1,  1),   // 1: Front Top Left
+	Vector( 1,  1,  1,  1),   // 2: Front Top Right
+	Vector( 1, -1,  1,  1),   // 3: Front Bottom Right
 
 	// Back Face //
-	Vector(-1, -1,  1,  1),   // 4: Back Bottom Right
-	Vector(-1,  1,  1,  1),   // 5: Back Top Right
-	Vector( 1,  1,  1,  1),   // 6: Back Top Left
-	Vector( 1, -1,  1,  1),   // 7: Back Bottom Left
+	Vector(-1, -1, -1,  1),   // 4: Back Bottom Right
+	Vector(-1,  1, -1,  1),   // 5: Back Top Right
+	Vector( 1,  1, -1,  1),   // 6: Back Top Left
+	Vector( 1, -1, -1,  1),   // 7: Back Bottom Left
 };
 
 class TestApp : public Application
@@ -117,16 +117,16 @@ public:
 	void Update()
 	{
 		float speed = 10;
-		if (IsKeyDown(GLFW_KEY_A))				m_cam_pos.x -= speed * g_engine->m_clock.DeltaTime();
-		if (IsKeyDown(GLFW_KEY_D))				m_cam_pos.x += speed * g_engine->m_clock.DeltaTime();
-		if (IsKeyDown(GLFW_KEY_W))				m_cam_pos.z += speed * g_engine->m_clock.DeltaTime();
-		if (IsKeyDown(GLFW_KEY_S))				m_cam_pos.z -= speed * g_engine->m_clock.DeltaTime();
-		if (IsKeyDown(GLFW_KEY_SPACE))			m_cam_pos.y += speed * g_engine->m_clock.DeltaTime();
-		if (IsKeyDown(GLFW_KEY_F))		m_cam_pos.y -= speed * g_engine->m_clock.DeltaTime();
+		if (IsKeyDown(Key::A))				m_cam_pos.x -= speed * g_engine->m_clock.DeltaTime();
+		if (IsKeyDown(Key::D))				m_cam_pos.x += speed * g_engine->m_clock.DeltaTime();
+		if (IsKeyDown(Key::W))				m_cam_pos.z -= speed * g_engine->m_clock.DeltaTime();
+		if (IsKeyDown(Key::S))				m_cam_pos.z += speed * g_engine->m_clock.DeltaTime();
+		if (IsKeyDown(Key::Space))			m_cam_pos.y += speed * g_engine->m_clock.DeltaTime();
+		if (IsKeyDown(Key::F))				m_cam_pos.y -= speed * g_engine->m_clock.DeltaTime();
 
 		Quaternion q = { 1, 0, 0, 0 };
-		if (IsKeyDown(GLFW_KEY_E))				q = Quaternion::CreateRotation(-M_PI * g_engine->m_clock.DeltaTime(), 0, 0, 1);
-		if (IsKeyDown(GLFW_KEY_Q))				q = Quaternion::CreateRotation(M_PI * g_engine->m_clock.DeltaTime(), 0, 0, 1);
+		if (IsKeyDown(Key::E))				q = Quaternion::CreateRotation(M_PI * g_engine->m_clock.DeltaTime(), 0, 0, 1);
+		if (IsKeyDown(Key::Q))				q = Quaternion::CreateRotation(-M_PI * g_engine->m_clock.DeltaTime(), 0, 0, 1);
 
 		m_cam_rot = q * m_cam_rot * q.Conjugate();
 
@@ -140,8 +140,8 @@ public:
 		//  X    Y    Z    W
 			htw, 0,   0,   0,  // X
 			0,   1,   0,   0,  // Y
-			0,   0,   1,  -1, // Z
-			0,   0,   1,   1   // W
+			0,   0,   1,   1, // Z
+			0,   0,  -1,   0   // W
 		};
 
 		m_view_mat =
@@ -171,8 +171,8 @@ public:
 	{
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_DEPTH_BUFFER_BIT);
-		// glEnable(GL_CULL_FACE);
-		glFrontFace(GL_CW);
+		glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CCW);
 		glDepthMask(GL_TRUE);
 		glDepthFunc(GL_LESS);
 
