@@ -2,6 +2,8 @@
 
 Engine* const g_engine = new Engine();
 
+void SetupKeyboard(GLFWwindow*);
+
 void Engine::Start(Application* app)
 {
 	if (!app)
@@ -102,7 +104,6 @@ void Engine::DestroyResources()
 
 void Engine::CheckEvents()
 {
-	SwapKeyboardStates();
 	glfwPollEvents();
 
 	if (glfwWindowShouldClose(m_window->GetGLFWWindow()))
@@ -113,7 +114,7 @@ void Engine::CheckEvents()
 
 void Engine::LogicUpdate()
 {
-	if (IsKeyReleased(GLFW_KEY_ESCAPE))
+	if (IsKeyPressed(Key::Escape))
 	{
 		m_running = false;
 	}

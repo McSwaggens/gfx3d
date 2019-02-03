@@ -1,38 +1,20 @@
 #include "Keyboard.h"
-#include <algorithm>
-#include <utility>
+#include "Engine.h"
 
-KeyboardState kbstates[2];
-KeyboardState* g_kbstate_current = &kbstates[0];
-KeyboardState* g_kbstate_last = &kbstates[1];
-
-void SwapKeyboardStates()
-{
-	std::swap(g_kbstate_current, g_kbstate_last);
-	std::fill_n(g_kbstate_current->keys, sizeof(g_kbstate_current->keys), 0);
-}
-
-void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	g_kbstate_current->keys[key] = (action != GLFW_RELEASE);
-}
+GLFWwindow* g_window;
 
 void SetupKeyboard(GLFWwindow* window)
 {
-	glfwSetKeyCallback(window, KeyCallback);
+	g_window = window;
 }
 
-bool IsKeyPressed(int key)
+bool IsKeyPressed(Key key)
 {
-	return g_kbstate_current->keys[key] && !g_kbstate_last->keys[key];
+	return glfwGetKey(g_window, (int)key) == GLFW_PRESS;
 }
 
-bool IsKeyDown(int key)
+bool IsKeyDown(Key key)
 {
-	return g_kbstate_current->keys[key];
+	return glfwGetKey(g_window, (int)key) != GLFW_RELEASE;
 }
 
-bool IsKeyReleased(int key)
-{
-	return !g_kbstate_current->keys[key] && g_kbstate_last->keys[key];
-}
