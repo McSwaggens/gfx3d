@@ -21,7 +21,6 @@ class Engine final
 private:
 
 	bool m_running = false;
-	Clock m_clock;
 	Window* m_window = nullptr;
 	Application* m_app = nullptr;
 
@@ -35,6 +34,7 @@ private:
 	void DestroyResources();
 
 public:
+	Clock m_clock;
 	void Start(Application* app);
 };
 
